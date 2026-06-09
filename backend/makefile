@@ -9,3 +9,6 @@ install: requirements.txt
 
 up: app/main.py
 	$(PY3) $<
+
+clean: app/__pycache__
+	rm -rf $<
