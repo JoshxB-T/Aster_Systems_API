@@ -1,12 +1,11 @@
 from pydantic import BaseModel
 from typing import Generic, TypeVar
-from pydantic.generics import GenericModel
 
 
 T = TypeVar("T")
 
 
-class APIResponse(GenericModel, Generic[T]):
+class APIResponse(BaseModel, Generic[T]):
     code: int
-    error: str | None
-    data: list[T] | None
+    error: str | None = None
+    data: T | None = None

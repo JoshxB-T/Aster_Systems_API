@@ -17,11 +17,11 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-def root():
+@app.get("/", response_model=APIResponse[str])
+def root() -> APIResponse[str]:
     return APIResponse(
         code=200,
-        data=["Ok"],
+        data="Ok",
         error=None
     )
 
