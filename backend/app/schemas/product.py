@@ -12,11 +12,15 @@ class Product(Base):
     __tablename__: str = "product"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    sku: Mapped[str] = mapped_column(String(12), unique=True)
-    name: Mapped[str] = mapped_column(String(100))
-    description: Mapped[str] = mapped_column(String(500))
-    price: Mapped[float] = mapped_column(Float)
-    active: Mapped[str] = mapped_column(String(50))
+    sku: Mapped[str] = mapped_column(String(16), unique=True)
+    name: Mapped[str] = mapped_column(String(128))
+    brand: Mapped[str] = mapped_column(String(64))
+    description: Mapped[str] = mapped_column(String(512))
+    unit_price: Mapped[float] = mapped_column(Float)
+    active: Mapped[str] = mapped_column(String(64))
+    created_at: Mapped[str] = mapped_column(String(64))
+    updated_at: Mapped[str] = mapped_column(String(64))
+    category_id: Mapped[int] = mapped_column(ForeignKey("category.id"))
 
     @override
     def __repr__(self) -> str:

@@ -13,8 +13,7 @@ class StockMovement(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     quantity_change: Mapped[int] = mapped_column(Integer) 
-    reason: Mapped[str] = mapped_column(String(255)) 
-    created_by: Mapped[int] = mapped_column(String(64)) 
+    reason: Mapped[str] = mapped_column(String(256)) 
     created_at: Mapped[int] = mapped_column(String(64)) 
     product_id: Mapped[int] = mapped_column(ForeignKey("product.id")) 
     warehouse_id: Mapped[int] = mapped_column(ForeignKey("warehouse.id")) 
