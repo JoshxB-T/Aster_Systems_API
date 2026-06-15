@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from services.root_service import get_root
+from services.root import get_root
 
 router = APIRouter(
     prefix="/status",

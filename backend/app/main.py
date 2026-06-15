@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import local_host, local_port
 
-from api.router import api_router
+from routers.router import api_router
 
 
 app = FastAPI(title="Aster Systems API")
