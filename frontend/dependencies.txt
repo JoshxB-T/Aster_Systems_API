@@ -1,0 +1,2 @@
+@react-native-vector-icons/fontawesome-free-solid
+@react-native-vector-icons/lucide
