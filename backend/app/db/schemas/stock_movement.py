@@ -14,10 +14,10 @@ class StockMovement(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     quantity_change: Mapped[int] = mapped_column(Integer) 
     reason: Mapped[str] = mapped_column(String(256)) 
-    created_at: Mapped[int] = mapped_column(String(64)) 
-    product_id: Mapped[int] = mapped_column(ForeignKey("product.id")) 
+    #created_at: Mapped[int] = mapped_column(String(64)) 
+    #product_id: Mapped[int] = mapped_column(ForeignKey("product.id")) 
     warehouse_id: Mapped[int] = mapped_column(ForeignKey("warehouse.id")) 
 
     @override
     def __repr__(self) -> str:
-        return f"StockMovement(id={self.id!r})"
+        return f"StockMovement(id={self.id}, quantity_change={self.quantity_change}, reason={self.reason})"

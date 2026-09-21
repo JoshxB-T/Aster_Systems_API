@@ -20,4 +20,4 @@ class Inventory(Base):
 
     @override
     def __repr__(self) -> str:
-        return f"Inventory(id={self.id!r}, quantity={self.quantity!r}, warehouse_id={self.warehouse_id!r}, product_id={self.product_id!r})"
+        return f"Inventory(id={self.id}, quantity={self.quantity}, warehouse_id={self.warehouse_id}, product_id={self.product_id})"

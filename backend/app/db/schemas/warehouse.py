@@ -18,4 +18,4 @@ class Warehouse(Base):
 
     @override
     def __repr__(self) -> str:
-        return f"Warehouse(id={self.id!r}, name={self.name!r}, address={self.address!r})"
+        return f"Warehouse(id={self.id}, name={self.name}, address={self.address})"
