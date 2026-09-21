@@ -1,0 +1,72 @@
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aster-api
+    ports:
+      - "${API_PORT}:8000"
+    volumes:
+      - /app
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: "${REDIS_PORT}"
+      DATABASE_URL: "${POSTGRES_DATABASE_URL}"
+    depends_on:
+      redis:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    command: >
+      python3 app/main.py
+
+  postgres:
+    image: postgres:18
+    container_name: aster-postgres
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aster -d aster"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: aster-redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile 
+    container_name: aster-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "8081:8081"
+      - "19000:19000"
+      - "19001:19001"
+      - "19002:19002"
+    environment:
+      EXPO_DEVTOOLS_LISTEN_ADDRESS: 0.0.0.0
+      REACT_NATIVE_PACKAGER_HOSTNAME: "${EXPO_HOSTNAME}"
+      EXPO_TOKEN: "${EXPO_TOKEN}"
+    stdin_open: true
+    tty: true
+    command: npx expo start --lan
+
+volumes:
+  postgres_data:
+  redis_data:
