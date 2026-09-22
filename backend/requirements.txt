@@ -1,5 +1,6 @@
-fastapi
-uvicorn
 SQLAlchemy
+alembic
+fastapi
 psycopg[binary]
 pydantic-settings
+uvicorn
