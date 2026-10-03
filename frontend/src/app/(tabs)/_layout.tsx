@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tabs } from 'expo-router';
 import { FontAwesomeFreeSolid } from "@react-native-vector-icons/fontawesome-free-solid";
 
