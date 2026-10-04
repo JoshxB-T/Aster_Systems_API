@@ -4,7 +4,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 
-SOURCE_PATH = (
+RAW_PATH = (
     BASE_DIR
     / "data"
     / "pc_parts"
@@ -12,7 +12,7 @@ SOURCE_PATH = (
     / "cpu.csv"
 )
 
-OUTPUT_PATH = (
+CLEAN_PATH = (
     BASE_DIR
     / "data"
     / "pc_parts"
@@ -40,7 +40,7 @@ IDENTITY_FIELDS = (
 )
 
 def clean_cpus() -> None:
-    OUTPUT_PATH.parent.mkdir(
+    CLEAN_PATH.parent.mkdir(
         parents=True,
         exist_ok=True,
     )
@@ -52,7 +52,7 @@ def clean_cpus() -> None:
 
     normalized_rows: dict[tuple[str, ...], dict[str, str]] = {}
 
-    with SOURCE_PATH.open(
+    with RAW_PATH.open(
         mode="r",
         encoding="utf-8",
         newline="",
@@ -127,7 +127,7 @@ def clean_cpus() -> None:
 
     rows_kept = len(normalized_rows)
 
-    with OUTPUT_PATH.open(
+    with CLEAN_PATH.open(
         mode="w",
         encoding="utf-8",
         newline="",
@@ -145,7 +145,7 @@ def clean_cpus() -> None:
     print(f"Rows kept:            {rows_kept}")
     print(f"Rows skipped:         {rows_skipped}")
     print(f"Duplicates removed:   {duplicates_removed}")
-    print(f"Output:               {OUTPUT_PATH}")
+    print(f"Output:               {CLEAN_PATH}")
 
 if __name__ == "__main__":
     clean_cpus()

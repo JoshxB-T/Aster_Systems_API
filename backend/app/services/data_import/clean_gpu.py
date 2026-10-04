@@ -2,8 +2,10 @@ import csv
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parents[3]
+
 RAW_PATH = (
-    Path(__file__).resolve().parents[3]
+    BASE_DIR
     / "data"
     / "pc_parts"
     / "raw"
@@ -11,7 +13,7 @@ RAW_PATH = (
 )
 
 CLEAN_PATH = (
-    Path(__file__).resolve().parents[3]
+    BASE_DIR
     / "data"
     / "pc_parts"
     / "clean"
@@ -39,7 +41,7 @@ def parse_price(value: str) -> Decimal | None:
     except InvalidOperation:
         return None
 
-def clean_gpu() -> None:
+def clean_gpus() -> None:
     products = {}
 
     rows_read = 0
@@ -136,10 +138,8 @@ def clean_gpu() -> None:
     print(f"Rows read:            {rows_read}")
     print(f"Rows kept:            {len(products)}")
     print(f"Rows skipped:         {rows_skipped}")
-    print(
-        f"Duplicates removed:   "
-        f"{rows_read - rows_skipped - len(products)}"
-    )
+    print(f"Duplicates removed:   {rows_read - rows_skipped - len(products)}")
+    print(f"Output:               {CLEAN_PATH}")
 
 if __name__ == "__main__":
-    clean_gpu()
+    clean_gpus()
