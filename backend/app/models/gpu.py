@@ -28,11 +28,11 @@ class GPU(Base):
     )
 
     core_clock: Mapped[int] = mapped_column(
-        nullable=False
+        nullable=True
     )
 
     boost_clock: Mapped[int] = mapped_column(
-        nullable=False
+        nullable=True
     )
 
     color: Mapped[str | None] = mapped_column(
@@ -40,8 +40,9 @@ class GPU(Base):
         nullable=True
     )
 
-    length: Mapped[int] = mapped_column(
-        nullable=False
+    length: Mapped[Decimal] = mapped_column(
+        Numeric(5, 1),
+        nullable=True
     )
 
     product: Mapped["Product"] = relationship()
