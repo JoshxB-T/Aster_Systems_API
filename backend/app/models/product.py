@@ -23,7 +23,7 @@ class Product(Base):
 
     unit_price: Mapped[Decimal] = mapped_column(
         Numeric(10, 2),
-        nullable=False
+        nullable=True
     )
 
     active: Mapped[bool] = mapped_column(
