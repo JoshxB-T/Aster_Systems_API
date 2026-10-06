@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from app.models.product import Product
+    from models.product import Product
 
 from decimal import Decimal
 
 from sqlalchemy import ForeignKey, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db.base import Base
+from db.base import Base
 
 class CPU(Base):
     __tablename__ = "cpu"
