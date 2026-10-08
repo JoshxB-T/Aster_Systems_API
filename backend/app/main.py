@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers.router import api_router
+from app.routers.router import api_router
 
 app = FastAPI(title="Aster Systems API")
 app.add_middleware(

@@ -1,4 +1,4 @@
-from schemas.response import APIResponse
+from app.schemas.response import APIResponse
 
 def get_root() -> APIResponse[str]:
     return APIResponse(

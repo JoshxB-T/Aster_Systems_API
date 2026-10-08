@@ -18,7 +18,7 @@ services:
       postgres:
         condition: service_healthy
     command: >
-      python3 app/main.py
+      python3 -m app.main
 
   postgres:
     image: postgres:18

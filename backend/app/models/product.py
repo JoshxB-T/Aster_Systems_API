@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.category import Category
+    from app.models.category import Category
 
 from datetime import datetime
 from decimal import Decimal
@@ -9,7 +9,7 @@ from decimal import Decimal
 from sqlalchemy import ForeignKey, Boolean, DateTime, Numeric, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from db.base import Base
+from app.db.base import Base
 
 class Product(Base):
     __tablename__: str = "product"
