@@ -1,9 +1,14 @@
-export async function apiRequest(URL, options = {}) {
+export async function apiRequest(url, options = {}) {
     try {
-        const response = await fetch(`${URL}`, options);
-        const json = await response.json();
+        const response = await fetch(`${url}`, options);
 
-        return json.data;
+        if (!response.ok) {
+            throw new Error(
+                `API request failed with status ${response.status}`
+            );
+        }
+
+        return await response.json();
     } catch (err) {
         console.error("API request failed: ", err);
         throw err;
