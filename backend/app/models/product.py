@@ -2,6 +2,8 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.category import Category
+    from app.models.cpu import CPU
+    from app.models.gpu import GPU
 
 from datetime import datetime
 from decimal import Decimal
@@ -52,4 +54,12 @@ class Product(Base):
 
     category: Mapped["Category"] = relationship(
         back_populates="products"
+    )
+
+    cpu: Mapped["CPU | None"] = relationship(
+        back_populates="product"
+    )
+
+    gpu: Mapped["GPU | None"] = relationship(
+        back_populates="product"
     )

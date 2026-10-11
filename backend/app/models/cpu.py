@@ -42,4 +42,6 @@ class CPU(Base):
         nullable=True
     )
 
-    product: Mapped["Product"] = relationship()
+    product: Mapped["Product"] = relationship(
+        back_populates="cpu"
+    )
