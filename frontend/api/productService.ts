@@ -5,3 +5,7 @@ import { ProductListResponse } from "./types";
 export async function getProducts(): Promise<ProductListResponse> {
     return apiRequest(ENDPOINTS.GET_PRODUCTS);
 }
+
+export function getProduct(id: string) {
+    return apiRequest(`${ENDPOINTS.GET_PRODUCTS}/${id}`);
+}

@@ -1,4 +1,5 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Pressable, Text, View, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import type { Product } from "../../../../api/types";
 
@@ -15,8 +16,13 @@ export default function ProductCard({
     ? `$${Number(product.unit_price).toFixed(2)}`
     : "Price unavailable";
 
+    const router = useRouter();
+
     return (
-        <View style={styles.card}>
+        <Pressable
+            style={styles.card}
+            onPress={() => router.push(`/product/${product.id}`)}
+        >
             <View style={styles.header}>
                 <Text style={styles.name}>
                     {product.name}
@@ -30,7 +36,7 @@ export default function ProductCard({
             <Text style={styles.price}>
                 {price}
             </Text>
-        </View>
+        </Pressable>
     );
 }
 
