@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Activity, useCallback, useEffect, useState } from 'react';
 import { 
     ActivityIndicator,
     Text,
@@ -13,22 +13,62 @@ import type { Product } from '../../../api/types';
 
 import ProductCard from '@/components/Screens/Inventory/ProductCard';
 
+const PAGE_SIZE = 20;
+
 export default function StockScreen() {
     const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [total, setTotal] = useState(0);
+    const [offset, setOffset] = useState(0);
+    const [initialLoading, setInitialLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
+    const hasMore = products.length < total
+
+    const loadNextPage = useCallback(async () => {
+        if (loadingMore || !hasMore || initialLoading) {
+            return;
+        }
+
+        setLoadingMore(true);
+        setError(null);
+
+        try {
+            const nextOffset = offset + PAGE_SIZE;
+            const response = await getProducts({
+                limit: PAGE_SIZE,
+                offset: nextOffset
+            });
+
+            setProducts((current) => [
+                ...current,
+                ...response.items
+            ]);
+            setOffset(response.offset);
+            setTotal(response.total);
+        } catch (err) {
+            console.error("Failed to load more products:", err);
+        } finally {
+            setLoadingMore(false);
+        }
+    }, [hasMore, initialLoading, loadingMore, offset]);
+
     useEffect(() => {
-        async function loadProducts() {
+        async function loadInitialPage() {
             try {
-                setLoading(true);
+                setInitialLoading(true);
                 setError(null);
 
-                const response = await getProducts();
+                const response = await getProducts({
+                    limit: PAGE_SIZE,
+                    offset: 0
+                });
 
                 setProducts(response.items);
+                setTotal(response.total);
+                setOffset(response.offset);
             } catch (err) {
-                console.error("Failed to load products:", err);
+                console.error("Failed to load inventory:", err);
 
                 setError(
                     err instanceof Error
@@ -36,14 +76,14 @@ export default function StockScreen() {
                     : new Error("Unable to load inventory.")
                 );
             } finally {
-                setLoading(false);
+                setInitialLoading(false);
             }
         }
 
-        loadProducts();
+        loadInitialPage();
     }, []);
 
-    if (loading) {
+    if (initialLoading) {
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator />
@@ -52,7 +92,7 @@ export default function StockScreen() {
         );
     }
 
-    if (error) {
+    if (error && products.length === 0) {
         return (
             <View style={styles.loadingContainer}>
                 <Text style={styles.text}>{error.message}</Text>
@@ -67,6 +107,19 @@ export default function StockScreen() {
             renderItem={({item}) => (
                 <ProductCard product={item}/>
             )}
+            onEndReached={loadNextPage}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+                <View>
+                    {loadingMore && <ActivityIndicator />}
+                    {error && <Text>{error.message}</Text>}
+                    {!hasMore && products.length > 0 && (
+                        <Text>
+                            All {total} products loaded.
+                        </Text>
+                    )}
+                </View>
+            }
         />
     );
 }

@@ -36,4 +36,6 @@ export type ProductDetails = Product & {
 export type ProductListResponse = {
     items: Product[];
     total: number;
+    limit: number;
+    offset: number;
 };

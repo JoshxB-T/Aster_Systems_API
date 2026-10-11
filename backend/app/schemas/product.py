@@ -27,6 +27,8 @@ class ProductResponse(BaseModel):
 class ProductListResponse(BaseModel):
     items: list[ProductResponse]
     total: int
+    limit: int
+    offset: int
 
 
 class CPUDetailsResponse(BaseModel):

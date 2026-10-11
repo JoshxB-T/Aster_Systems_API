@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from sqlalchemy.orm import Session
 
@@ -31,16 +31,24 @@ def get_db():
     response_model=ProductListResponse,
 )
 def list_products(
+    limit: int=Query(default=20, ge=1, le=100),
+    offset: int=Query(default=0, ge=0),
     session: Session = Depends(get_db),
 ) -> ProductListResponse:
-    products = get_products(session)
+    items, total = get_products(
+        session,
+        limit=limit,
+        offset=offset
+    )
     
     return ProductListResponse(
         items=[
-            ProductResponse.model_validate(product)
-            for product in products
+            ProductResponse.model_validate(item)
+            for item in items 
         ],
-        total=len(products),
+        total=total,
+        limit=limit,
+        offset=offset
     )
 
 
