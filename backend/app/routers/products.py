@@ -1,3 +1,5 @@
+from typing import Literal
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from sqlalchemy.orm import Session
@@ -33,12 +35,16 @@ def get_db():
 def list_products(
     limit: int=Query(default=20, ge=1, le=100),
     offset: int=Query(default=0, ge=0),
+    search: str | None=Query(default=None, max_length=100),
+    category: Literal["CPU", "GPU"] | None=Query(default=None),
     session: Session = Depends(get_db),
 ) -> ProductListResponse:
     items, total = get_products(
         session,
         limit=limit,
-        offset=offset
+        offset=offset,
+        search=search,
+        category=category
     )
     
     return ProductListResponse(

@@ -39,3 +39,5 @@ export type ProductListResponse = {
     limit: number;
     offset: number;
 };
+
+export type CategoryFilter = "CPU" | "GPU" | null;
